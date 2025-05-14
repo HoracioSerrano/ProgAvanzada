@@ -14,6 +14,17 @@ class Dao_Carta {
         return arr;
     }
 
+    static async seleccionarPorId(id){
+        const db = await Dao.getConeccion();
+        const qry = 'SELECT * FROM cartasmagic.carta where cta_id=?';
+        const resultado = await db.execute(qry,[id]);
+        await db.end();   
+        const arr = resultado[0].map((x)=>{
+            return new Carta(x.cta_id, x.cta_scryfall_id, x.cta_nombre, x.cta_uri_imagen, x.cta_cantidad);
+        });
+        return arr[0];
+    }
+
     static async insertarCarta(Carta){
         const db = await Dao.getConeccion();
         const qry = 'insert into cartasmagic.carta (cta_scryfall_id, cta_nombre, cta_uri_imagen, cta_cantidad) values (?,?,?,?)';
