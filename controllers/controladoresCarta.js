@@ -10,7 +10,7 @@ class ControladorCarta{
     static async seleccionarPorId(req,res){
         const id = req.params.id;
         const carta = await Dao_Carta.seleccionarPorId(id);
-        if (!carta){
+        if (carta){
             res.status(200).send(JSON.stringify(carta));
         }else{
             res.status(404).send("Carta No encontrada");
@@ -20,7 +20,7 @@ class ControladorCarta{
     static async insertarCarta(req,res){
         const carta = req.body;
         await Dao_Carta.insertarCarta(carta);
-        if (!carta.cta_id){
+        if (carta.cta_id){
             res.status(200).send(JSON.stringify(carta));
         }else{
             res.status(500).send("No se pudo insertar");
@@ -32,7 +32,7 @@ class ControladorCarta{
         await Dao_Carta.actualizarCarta(carta);
         res.status(200).send(JSON.stringify(carta));
     }
-    
+
     static async eliminarCarta(req,res){
         const carta = req.body;
         await Dao_Carta.eliminarCarta(carta);
