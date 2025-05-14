@@ -16,8 +16,8 @@ app.use(cors());
 
 
 //seteo router
-const router = require('./rutas/router');
-app.use('/', router);
+const rutasApi = require('./rutas/rutasApi');
+app.use('/', rutasApi);
 
 //prioridad rutas sobre contenido estatico
 app.use(express.static('Estatico'));
