@@ -9,7 +9,11 @@ const rutasApi = express.Router();
 
 rutasApi.use("/api",interceptorError);
 
-rutasApi.get("/api/seleccionarColeccionEntera", ControladorCarta.seleccionarColeccionEntera)
+rutasApi.get("/api/carta", ControladorCarta.seleccionarColeccionEntera);
+rutasApi.post("/api/carta", ControladorCarta.insertarCarta);
+rutasApi.put("/api/carta", ControladorCarta.actualizarCarta);
+rutasApi.delete("/api/carta", ControladorCarta.eliminarCarta);
+
 
 
 
