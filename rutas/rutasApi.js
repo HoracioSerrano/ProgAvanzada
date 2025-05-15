@@ -7,13 +7,13 @@ const rutasApi = express.Router();
 
 
 
-rutasApi.use("/api",interceptorError);
+rutasApi.use("/",interceptorError);
 
-rutasApi.get("/api/carta", ControladorCarta.seleccionarColeccionEntera);
-rutasApi.get("/api/carta/:id", ControladorCarta.seleccionarPorId);
-rutasApi.post("/api/carta", ControladorCarta.insertarCarta);
-rutasApi.put("/api/carta", ControladorCarta.actualizarCarta);
-rutasApi.delete("/api/carta", ControladorCarta.eliminarCarta);
+rutasApi.get("/carta", ControladorCarta.seleccionarColeccionEntera);
+rutasApi.get("/carta/:id", ControladorCarta.seleccionarPorId);
+rutasApi.post("/carta", ControladorCarta.insertarCarta);
+rutasApi.put("/carta", ControladorCarta.actualizarCarta);
+rutasApi.delete("/carta", ControladorCarta.eliminarCarta);
 
 
 
