@@ -1,11 +1,13 @@
 const { Carta } = require('../modelo/carta');
 const { Dao_Carta } = require('../servicio/dao_carta');
 const ejs = require('ejs');
+const path = require('path');
+
 
 class ControladorVista{
     static async vistaColeccion(req,res){
         const coleccion = await Dao_Carta.seleccionarColeccionEntera();
-        let html = ejs.renderFile( path.join(__dirname + '../vista/vistaColeccion.ejs') , {people: 'people'});
+        let html = await ejs.renderFile( path.join(__dirname, '..', 'vista', 'vistaColeccion.ejs') , {people: 'people'});
         res.status(200).send(html);
     }
 
