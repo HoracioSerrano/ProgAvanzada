@@ -36,7 +36,11 @@ class Dao_Carta {
         ]);
         Carta.cta_id = resultado[0].insertId;
         await db.end();
-        return Carta;
+        if(resultado[0].affectedRows>0){
+            return Carta;
+        }else{
+            return null;
+        }
     }
 
     static async actualizarCarta(Carta){
@@ -49,23 +53,28 @@ class Dao_Carta {
             Carta.cta_cantidad,
             Carta.cta_id
         ]);
-        console.log(resultado);
         await db.end();
-        return Carta;
+        if(resultado[0].affectedRows>0){
+            return Carta;
+        }else{
+            return null;
+        }
     }
     
-        static async eliminarCarta(Carta){
+    static async eliminarCarta(Carta){
         const db = await Dao.getConeccion();
         const qry = 'delete from cartasmagic.carta where cta_id=?';
         let resultado = await db.execute(qry,[
             Carta.cta_id
         ]);
-        console.log(resultado);
         await db.end();
-        return Carta;
+        console.log(resultado)
+        if(resultado[0].affectedRows>0){
+            return Carta;
+        }else{
+            return null;
+        }
     }
-    
-
 }
 
 module.exports = { Dao_Carta };

@@ -19,8 +19,8 @@ class ControladorCarta{
 
     static async insertarCarta(req,res){
         const carta = req.body;
-        await Dao_Carta.insertarCarta(carta);
-        if (carta.cta_id){
+        const insertada = await Dao_Carta.insertarCarta(carta);
+        if (insertada){
             res.status(200).send(JSON.stringify(carta));
         }else{
             res.status(500).send("No se pudo insertar");
@@ -29,14 +29,22 @@ class ControladorCarta{
 
     static async actualizarCarta(req,res){
         const carta = req.body;
-        await Dao_Carta.actualizarCarta(carta);
-        res.status(200).send(JSON.stringify(carta));
+        const actualizada = await Dao_Carta.actualizarCarta(carta);
+        if (actualizada){
+            res.status(200).send(JSON.stringify(carta));
+        }else{
+            res.status(500).send("No se pudo actualizar");
+        }
     }
 
     static async eliminarCarta(req,res){
         const carta = req.body;
-        await Dao_Carta.eliminarCarta(carta);
-        res.status(200).send(JSON.stringify(carta));
+        const eliminada = await Dao_Carta.eliminarCarta(carta);
+        if (eliminada){
+            res.status(200).send(JSON.stringify(carta));
+        }else{
+            res.status(500).send("No se pudo eliminada");
+        }
     }
 
 }
