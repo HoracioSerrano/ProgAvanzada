@@ -15,6 +15,24 @@ var cors = require('cors');
 app.use(cors());
 
 
+let ejs = require('ejs');
+let people = ['geddy', 'neil', 'alex'];
+const { Dao_Carta } = require('../servicio/dao_carta');
+app.use('/index',(req,res)=>{
+
+    let plantilla =`
+
+    `
+
+
+
+    let html = ejs.render('<h1><%= people.join(", "); %><h1>', {people: people})
+    res.status(200).send(html);
+})
+
+
+
+
 //seteo router
 const rutasApi = require('./rutas/rutasApi');
 app.use('/', rutasApi);
