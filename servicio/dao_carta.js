@@ -78,3 +78,5 @@ class Dao_Carta {
 }
 
 module.exports = { Dao_Carta };
+
+/*Api Finalizada*/
