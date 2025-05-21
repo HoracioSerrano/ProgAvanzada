@@ -7,15 +7,16 @@ const path = require('path');
 class ControladorVista{
     static async vistaColeccion(req,res){
         const coleccion = await Dao_Carta.seleccionarColeccionEntera();
-        let html = await ejs.renderFile( path.join(__dirname, '..', 'vista', 'vistaColeccion.ejs') , {people: 'people'});
+        let html = await ejs.renderFile( path.join(__dirname, '...', 'vista', 'vistaColeccion.ejs') , {people: 'people'});
         res.status(200).send(html);
     }
 
-    static async seleccionarPorId(req,res){
+    static async vistaPorId(req,res){
         const id = req.params.id;
         const carta = await Dao_Carta.seleccionarPorId(id);
         if (carta){
-            res.status(200).send(JSON.stringify(carta));
+            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'edicion',carta: carta});
+            res.status(200).send(html);
         }else{
             res.status(404).send("Carta No encontrada");
         }
