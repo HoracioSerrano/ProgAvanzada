@@ -12,7 +12,7 @@ rutasVista.get("/", ControladorVista.vistaColeccion);
 
 rutasVista.get("/carta/:id",ControladorVista.vistaPorId);
 
-
+rutasVista.put("/carta",ControladorVista.actualizarCarta);
 
 module.exports = rutasVista;
 

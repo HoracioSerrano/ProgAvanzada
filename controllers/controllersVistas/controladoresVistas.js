@@ -15,7 +15,7 @@ class ControladorVista{
         const id = req.params.id;
         const carta = await Dao_Carta.seleccionarPorId(id);
         if (carta){
-            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'edicion',carta: carta});
+            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'edicion',carta: carta, mensaje:''});
             res.status(200).send(html);
         }else{
             res.status(404).send("Carta No encontrada");
@@ -33,10 +33,17 @@ class ControladorVista{
     }
 
     static async actualizarCarta(req,res){
-        const carta = req.body;
+        const cuerpo = req.body;
+        const carta = new Carta();
+        carta.cta_id = cuerpo.idCarta;
+        carta.cta_scryfall_id = cuerpo.idScryfall;
+        carta.cta_nombre = cuerpo.txtCarta;
+        carta.cta_uri_imagen = cuerpo.urlImagen;
+        carta.cta_cantidad = cuerpo.txtCantidad;
         const actualizada = await Dao_Carta.actualizarCarta(carta);
         if (actualizada){
-            res.status(200).send(JSON.stringify(carta));
+            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'edicion',carta: actualizada, mensaje:'Carta Actualizada'});
+            res.status(200).send(html);
         }else{
             res.status(500).send("No se pudo actualizar");
         }

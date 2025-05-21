@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
-    <title>Document</title>
+    <title>Carta</title>
 </head>
 <body>
     
@@ -27,24 +27,91 @@
     </nav>
     <div class="container-fluid">
 
-        <form>
+        <% if (modo='edicion') { %>
+                <form method="POST" action="/carta?_method=PUT">
+            <% } else { %>
+                <form method="POST" action="/carta>">
+        <% } %>
             <div class="card" style="width: 18rem;">
-                <img id="imgCarta" src="https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105" class="card-img-top" alt="https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105" width="100%">
+                <% if (modo='eidicion') { %>
+                    <img id="imgCarta" src=<%=carta.cta_uri_imagen%> class="card-img-top" alt="..." width="100%">
+                    <% } else { %>
+                    <img id="imgCarta" src="https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105" class="card-img-top" alt="..." width="100%">   
+                <% } %>
+
                 <div class="card-body">
                     <label for="exampleFormControlInput1" class="form-label">Carta</label>
-                    <input type="text" class="form-control" id="txtCarta" placeholder="carta">
-                    <label for="exampleFormControlInput1" class="form-label">Cantidad</label>
-                    <input type="number" class="form-control  mb-3" id="txtCantidad" name="txtCantidad" placeholder="0">
-                    <input type="hidden" id="urlImagen" name="urlImagen" value=""/>
-                    <input type="hidden" id="idCarta" name="idCarta" value=""/>
-                    <input type="hidden" id="idScryfall" name="idScryfall" value=""/>
-                    <input type="button" id="btnBuscar" class="btn btn-primary" value="Buscar" onclick="buscarCarta()">
-                    <input type="submit" id="btnAñadir" class="btn btn-primary" value="Añadir">
-                    <input type="submit" id="btnActualizar" class="btn btn-primary" value="Actualizar">
+                    <input type="text" class="form-control" id="txtCarta" name="txtCarta" placeholder="carta"  
+                    <% if (modo='edicion') { %>
+                        disabled value=<%=carta.cta_nombre%>
+                    <% } %>
+                    />
+                    <label class="form-label">Cantidad</label>
+                    <input type="number" class="form-control  mb-3" id="txtCantidad" name="txtCantidad" placeholder="0"
+                        <% if (modo='edicion') { %>
+                            value=<%=carta.cta_cantidad%>
+                        <% } else { %>
+                            value="0"
+                        <% } %>
+                    />
+                    <input type="hidden" id="urlImagen" name="urlImagen" 
+                        <% if (modo='edicion') { %>
+                            value=<%=carta.cta_uri_imagen%>
+                        <% } else { %>
+                            value=""
+                        <% } %>
+                    />
+                    <input type="hidden" id="idCarta" name="idCarta" 
+                        <% if (modo='edicion') { %>
+                            value=<%=carta.cta_id%>
+                        <% } else { %>
+                            value=""
+                        <% } %>                   
+                    />
+                    <input type="hidden" id="idScryfall" name="idScryfall"
+                        <% if (modo='edicion') { %>
+                            value=<%=carta.cta_scryfall_id%>
+                        <% } else { %>
+                            value=""
+                        <% } %>  
+                    />
+
+                    <% if (modo!='edicion') { %>
+                        <input type="button" id="btnBuscar" class="btn btn-primary" value="Buscar" onclick="buscarCarta()">
+                        <input type="submit" id="btnAñadir" class="btn btn-primary" value="Añadir">
+                    <% } else { %>
+                        <input type="submit" id="btnActualizar" class="btn btn-primary" value="Actualizar">
+                    <% } %>
                 </div>
             </div>
         </form>
 
     </div>
 
+    <% if (mensaje!='') { %>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <%= mensaje %>
+        </div>
+    <% } %>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+ 
+    <script>
+        async function buscarCarta(){
+            const respuesta = await fetch("https://api.scryfall.com/cards/named?fuzzy="+txtCarta.value)
+            if (respuesta.ok){
+                const json = await respuesta.json()
+                imgCarta.setAttribute("src", json.image_uris.normal)
+                urlImagen.value=json.image_uris.normal
+                idScryfall=json.id
+            }else{
+                imgCarta.setAttribute("src", "https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105")
+                urlImagen.value="https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105"
+                idScryfall=""
+                alert("Carta No Encontrada")
+                txt.value = ""
+            }
+        }
+    </script>
+</html>
