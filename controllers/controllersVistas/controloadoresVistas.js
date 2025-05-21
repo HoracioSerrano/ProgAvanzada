@@ -1,10 +1,14 @@
-const { Carta } = require('../modelo/carta');
-const { Dao_Carta } = require('../servicio/dao_carta');
+const { Carta } = require('../../modelo/carta');
+const { Dao_Carta } = require('../../servicio/dao_carta');
+const ejs = require('ejs');
+const path = require('path');
 
-class ControladorCarta{
-    static async seleccionarColeccionEntera(req,res){
+
+class ControladorVista{
+    static async vistaColeccion(req,res){
         const coleccion = await Dao_Carta.seleccionarColeccionEntera();
-        res.status(200).send(JSON.stringify(coleccion));
+        let html = await ejs.renderFile( path.join(__dirname, '..', 'vista', 'vistaColeccion.ejs') , {people: 'people'});
+        res.status(200).send(html);
     }
 
     static async seleccionarPorId(req,res){
@@ -49,6 +53,4 @@ class ControladorCarta{
 
 }
 
-
-
-module.exports = ControladorCarta;
+module.exports = ControladorVista;

@@ -1,7 +1,7 @@
 
 const express = require('express');
 const interceptorError = require('../controllers/interceptorErrores');
-const ControladorCarta = require('../controllers/controladoresCarta');
+const ControladorCarta = require('../controllers/controllersApis/controladoresCarta');
 const rutasApi = express.Router(); 
 
 
