@@ -43,13 +43,13 @@
                     <label for="exampleFormControlInput1" class="form-label">Carta</label>
                     <input type="text" class="form-control" id="txtCarta" name="txtCarta" placeholder="carta"  
                     <% if (modo='edicion') { %>
-                        value=<%=carta.cta_nombre%>
+                        value="<%=carta.cta_nombre%>"
                     <% } %>
                     />
                     <label class="form-label">Cantidad</label>
                     <input type="number" class="form-control  mb-3" id="txtCantidad" name="txtCantidad" placeholder="0"
                         <% if (modo='edicion') { %>
-                            value=<%=carta.cta_cantidad%>
+                            value="<%=carta.cta_cantidad%>"
                         <% } else { %>
                             value="0"
                         <% } %>
@@ -63,14 +63,14 @@
                     />
                     <input type="hidden" id="idCarta" name="idCarta" 
                         <% if (modo='edicion') { %>
-                            value=<%=carta.cta_id%>
+                            value="<%=carta.cta_id%>"
                         <% } else { %>
                             value=""
                         <% } %>                   
                     />
                     <input type="hidden" id="idScryfall" name="idScryfall"
                         <% if (modo='edicion') { %>
-                            value=<%=carta.cta_scryfall_id%>
+                            value="<%=carta.cta_scryfall_id%>"
                         <% } else { %>
                             value=""
                         <% } %>  

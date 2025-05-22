@@ -35,7 +35,6 @@ class ControladorVista{
     static async actualizarCarta(req,res){
         const cuerpo = req.body;
         const carta = new Carta();
-        console.log(cuerpo);
         carta.cta_id = cuerpo.idCarta;
         carta.cta_scryfall_id = cuerpo.idScryfall;
         carta.cta_nombre = cuerpo.txtCarta;
@@ -43,7 +42,7 @@ class ControladorVista{
         carta.cta_cantidad = cuerpo.txtCantidad;
         const actualizada = await Dao_Carta.actualizarCarta(carta);
         if (actualizada){
-            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'edicion',carta: actualizada, mensaje:'Carta Actualizada'});
+            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'edicion',carta: carta, mensaje:'Carta Actualizada'});
             res.status(200).send(html);
         }else{
             res.status(500).send("No se pudo actualizar");
