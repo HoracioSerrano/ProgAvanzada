@@ -31,11 +31,22 @@ class ControladorCarta{
         const carta = req.body;
         const actualizada = await Dao_Carta.actualizarCarta(carta);
         if (actualizada){
-            res.status(200).send(JSON.stringify(carta));
+            res.status(200).send(JSON.stringify(actualizada));
         }else{
             res.status(500).send("No se pudo actualizar");
         }
     }
+
+
+
+
+
+
+
+
+
+
+
 
     static async eliminarCarta(req,res){
         const carta = req.body;

@@ -35,6 +35,7 @@ class ControladorVista{
     static async actualizarCarta(req,res){
         const cuerpo = req.body;
         const carta = new Carta();
+        console.log(cuerpo);
         carta.cta_id = cuerpo.idCarta;
         carta.cta_scryfall_id = cuerpo.idScryfall;
         carta.cta_nombre = cuerpo.txtCarta;
