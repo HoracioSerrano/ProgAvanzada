@@ -7,7 +7,7 @@ const path = require('path');
 class ControladorVista{
     static async vistaColeccion(req,res){
         const coleccion = await Dao_Carta.seleccionarColeccionEntera();
-        let html = await ejs.renderFile( path.join(__dirname, '...', 'vista', 'vistaColeccion.ejs') , {people: 'people'});
+        let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaColeccion.ejs') , {cartas:coleccion, mensaje:''});
         res.status(200).send(html);
     }
 
@@ -32,8 +32,8 @@ class ControladorVista{
             let c = new Carta('',carta.idScryfall,carta.txtCarta, carta.urlImagen, carta.txtCantidad);
             const insertada = await Dao_Carta.insertarCarta(c);
             if (insertada){
-                let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'insertar',carta: c, mensaje:'Carta Insertada'});
-                res.status(200).send(JSON.stringify(html));
+                let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'insertar',carta: insertada, mensaje:'Carta Insertada'});
+                res.status(200).send(html);
             }else{
                 res.status(500).send("No se pudo insertar");
             }
@@ -59,10 +59,11 @@ class ControladorVista{
 
     static async eliminarCarta(req,res){
         const carta = req.body;
-        const eliminada = await Dao_Carta.eliminarCarta(carta);
+        let c = new Carta(carta.idCarta,carta.idScryfall,carta.txtCarta, carta.urlImagen, carta.txtCantidad);
+        const eliminada = await Dao_Carta.eliminarCarta(c);
         if (eliminada){
             const coleccion = await Dao_Carta.seleccionarColeccionEntera();
-            let html = await ejs.renderFile( path.join(__dirname, '...', 'vista', 'vistaColeccion.ejs') , {people: 'people'});
+            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaColeccion.ejs') , {cartas:coleccion, mensaje:'Carta Eliminada'});
             res.status(200).send(html);
         }else{
             res.status(500).send("No se pudo eliminada");

@@ -5,48 +5,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
-    <title>Carta</title>
+    <title>coleccion</title>
+
+    <style>
+        .flex{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    </style>
+
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Coleccion</a>  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/insertarcarta">Añadir Carta</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+<div class="flex">
+<% cartas.forEach(carta => { %>
+        <div class="card" style="width: 15rem;">
+            <img id="imgCarta" src="<%=carta.cta_uri_imagen%>" class="card-img-top" alt="..." width="100%">
+            <div class="card-body">
+                <div class="flex">
+                <form method="GET" action="/carta/<%=carta.cta_id%>">
+                    <input type="hidden" id="txtCarta" name="txtCarta" 
+                        value="<%=carta.cta_nombre%>"
+                    />
+                    <input type="hidden" id="txtCantidad" name="txtCantidad"
+                        value="<%=carta.cta_cantidad%>"
+                    />
+                    <input type="hidden" id="urlImagen" name="urlImagen" 
+                        value="<%=carta.cta_uri_imagen%>"
+                    />
+                    <input type="hidden" id="idCarta" name="idCarta" 
+                        value="<%=carta.cta_id%>"
+                    />
+                    <input type="hidden" id="idScryfall" name="idScryfall"
+                        value="<%=carta.cta_scryfall_id%>"
+                    />
+                    <input type="submit" id="btnEditarCarta" class="btn btn-primary" value="Editar">
+                </form>
+                <form method="POST" action="/carta?_method=DELETE">
+                    <input type="hidden" id="txtCarta" name="txtCarta" 
+                        value="<%=carta.cta_nombre%>"
+                    />
+                    <input type="hidden" id="txtCantidad" name="txtCantidad"
+                        value="<%=carta.cta_cantidad%>"
+                    />
+                    <input type="hidden" id="urlImagen" name="urlImagen" 
+                        value="<%=carta.cta_uri_imagen%>"
+                    />
+                    <input type="hidden" id="idCarta" name="idCarta" 
+                        value="<%=carta.cta_id%>"
+                    />
+                    <input type="hidden" id="idScryfall" name="idScryfall"
+                        value="<%=carta.cta_scryfall_id%>"
+                    />
+                    <input type="submit" id="btnEliminar" class="btn btn-danger" value="Eliminar">
+                </form>
+                </div>
+            </div>
+        </div>
+<% }) %>
+</div>
+
+
+
+
+
+
+
+
+
     
 
 
 
 
-    
 
 
 
 
-
-
-
-
-
-
-
-
-
+    <% if (mensaje!='') { %>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <%= mensaje %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+          window.addEventListener('DOMContentLoaded', (event) => {
+            const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            modal.show();
+          });
+        </script>
+    <% } %>
 
 </body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
  
-    <script>
-        async function buscarCarta(){
-            const respuesta = await fetch("https://api.scryfall.com/cards/named?fuzzy="+txtCarta.value)
-            if (respuesta.ok){
-                const json = await respuesta.json()
-                imgCarta.setAttribute("src", json.image_uris.normal)
-                urlImagen.value=json.image_uris.normal
-                idScryfall=json.id
-            }else{
-                imgCarta.setAttribute("src", "https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105")
-                urlImagen.value="https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105"
-                idScryfall=""
-                alert("Carta No Encontrada")
-                txt.value = ""
-            }
-        }
-    </script>
 </html>
