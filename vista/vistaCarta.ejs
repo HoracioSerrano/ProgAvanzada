@@ -16,10 +16,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Coleccion</a>
+                    <% if (modo!='insertar') { %>
+                        <a class="nav-link active" href="/">Coleccion</a>
+                    <% } else { %>
+                        <a class="nav-link" href="/">Coleccion</a>
+                    <% } %>   
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Añadir Carta</a>
+                    <% if (modo!='insertar') { %>
+                        <a class="nav-link" href="/insertarcarta">Añadir Carta</a>
+                    <% } else { %>
+                        <a class="nav-link active" href="/insertarcarta">Añadir Carta</a>
+                    <% } %>
                 </li>
               </ul>
             </div>
@@ -27,13 +35,13 @@
     </nav>
     <div class="container-fluid">
 
-        <% if (modo='edicion') { %>
+        <% if (modo=='edicion') { %>
                 <form method="POST" action="/carta?_method=PUT">
             <% } else { %>
-                <form method="POST" action="/carta>">
+                <form method="POST" action="/insertarcarta">
         <% } %>
             <div class="card" style="width: 18rem;">
-                <% if (modo='eidicion') { %>
+                <% if (modo=='eidicion') { %>
                     <img id="imgCarta" src=<%=carta.cta_uri_imagen%> class="card-img-top" alt="..." width="100%">
                     <% } else { %>
                     <img id="imgCarta" src="https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105" class="card-img-top" alt="..." width="100%">   
@@ -42,34 +50,34 @@
                 <div class="card-body">
                     <label for="exampleFormControlInput1" class="form-label">Carta</label>
                     <input type="text" class="form-control" id="txtCarta" name="txtCarta" placeholder="carta"  
-                    <% if (modo='edicion') { %>
+                    <% if (modo=='edicion') { %>
                         value="<%=carta.cta_nombre%>"
                     <% } %>
                     />
                     <label class="form-label">Cantidad</label>
                     <input type="number" class="form-control  mb-3" id="txtCantidad" name="txtCantidad" placeholder="0"
-                        <% if (modo='edicion') { %>
+                        <% if (modo=='edicion') { %>
                             value="<%=carta.cta_cantidad%>"
                         <% } else { %>
                             value="0"
                         <% } %>
                     />
                     <input type="hidden" id="urlImagen" name="urlImagen" 
-                        <% if (modo='edicion') { %>
+                        <% if (modo=='edicion') { %>
                             value=<%=carta.cta_uri_imagen%>
                         <% } else { %>
                             value=""
                         <% } %>
                     />
                     <input type="hidden" id="idCarta" name="idCarta" 
-                        <% if (modo='edicion') { %>
+                        <% if (modo=='edicion') { %>
                             value="<%=carta.cta_id%>"
                         <% } else { %>
                             value=""
                         <% } %>                   
                     />
                     <input type="hidden" id="idScryfall" name="idScryfall"
-                        <% if (modo='edicion') { %>
+                        <% if (modo=='edicion') { %>
                             value="<%=carta.cta_scryfall_id%>"
                         <% } else { %>
                             value=""
@@ -89,9 +97,28 @@
     </div>
 
     <% if (mensaje!='') { %>
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <%= mensaje %>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <%= mensaje %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        <script>
+          window.addEventListener('DOMContentLoaded', (event) => {
+            const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            modal.show();
+          });
+        </script>
     <% } %>
 
 
@@ -104,7 +131,8 @@
                 const json = await respuesta.json()
                 imgCarta.setAttribute("src", json.image_uris.normal)
                 urlImagen.value=json.image_uris.normal
-                idScryfall=json.id
+                idScryfall.value=json.id
+                console.log(json)
             }else{
                 imgCarta.setAttribute("src", "https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105")
                 urlImagen.value="https://cards.scryfall.io/normal/front/9/3/93acc8a5-c694-4ad8-b4c0-2e156424319d.jpg?1592710105"

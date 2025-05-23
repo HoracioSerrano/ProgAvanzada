@@ -24,11 +24,19 @@ class ControladorVista{
 
     static async insertarCarta(req,res){
         const carta = req.body;
-        const insertada = await Dao_Carta.insertarCarta(carta);
-        if (insertada){
-            res.status(200).send(JSON.stringify(carta));
+        if (carta==null){
+            let parametros = {modo:'insertar',carta: {}, mensaje:''};
+            let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , parametros);
+            res.status(200).send(html);
         }else{
-            res.status(500).send("No se pudo insertar");
+            let c = new Carta('',carta.idScryfall,carta.txtCarta, carta.urlImagen, carta.txtCantidad);
+            const insertada = await Dao_Carta.insertarCarta(c);
+            if (insertada){
+                let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaCarta.ejs') , {modo:'insertar',carta: c, mensaje:'Carta Insertada'});
+                res.status(200).send(JSON.stringify(html));
+            }else{
+                res.status(500).send("No se pudo insertar");
+            }
         }
     }
 
@@ -53,7 +61,9 @@ class ControladorVista{
         const carta = req.body;
         const eliminada = await Dao_Carta.eliminarCarta(carta);
         if (eliminada){
-            res.status(200).send(JSON.stringify(carta));
+            const coleccion = await Dao_Carta.seleccionarColeccionEntera();
+            let html = await ejs.renderFile( path.join(__dirname, '...', 'vista', 'vistaColeccion.ejs') , {people: 'people'});
+            res.status(200).send(html);
         }else{
             res.status(500).send("No se pudo eliminada");
         }

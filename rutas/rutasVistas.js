@@ -14,5 +14,9 @@ rutasVista.get("/carta/:id",ControladorVista.vistaPorId);
 
 rutasVista.put("/carta",ControladorVista.actualizarCarta);
 
+rutasVista.get("/insertarcarta",ControladorVista.insertarCarta);
+rutasVista.post("/insertarcarta",ControladorVista.insertarCarta);
+
+
 module.exports = rutasVista;
 
