@@ -3,11 +3,12 @@ var methodOverride = require('method-override')
 const app = express()
 const config = require('dotenv').config({ path: __dirname + '/.env' }).parsed;
 const port = config.PUERTO;
-
+const cookieParser = require('cookie-parser');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method')); // <-- debe ir antes de las rutas
 app.use(express.json());
+app.use(cookieParser());
 
 //utiliza CORS
 var cors = require('cors');

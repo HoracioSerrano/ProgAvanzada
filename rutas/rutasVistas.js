@@ -8,6 +8,9 @@ const rutasVista = express.Router();
 
 //rutas Cartas
 rutasVista.use("/",interceptorError);
+
+
+
 rutasVista.get("/", ControladorVista.vistaColeccion);
 rutasVista.get("/carta/:id",ControladorVista.vistaPorId);
 rutasVista.delete("/carta", ControladorVista.eliminarCarta);

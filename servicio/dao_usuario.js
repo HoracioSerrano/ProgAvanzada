@@ -21,9 +21,25 @@ class Dao_Usuario {
         }
     }
 
+    static async seleccionarPorNombre(nombre){
+        const db = await Dao.getConeccion();
+        const qry = 'SELECT * FROM cartasmagic.usuario where usu_nombre=?';
+        const resultado = await db.execute(qry,[nombre]);
+        await db.end();
+        if (resultado[0].length == 0) {
+            return null;
+        }else{
+            const u = new Usuario();    
+            u.usu_id = resultado[0][0].usu_id;
+            u.usu_nombre = resultado[0][0].usu_nombre;
+            u.usu_password = resultado[0][0].usu_password;
+            return u;
+        }
+    }
+
     static async insertarUsuario(Usuario){
         const db = await Dao.getConeccion();
-        const qry = 'insert into cartasmagic.carta (usu_id, usu_nombre, usu_password) values (?,?,?)';
+        const qry = 'insert into cartasmagic.usuario (usu_nombre, usu_password) values (?,?)';
         let resultado = await db.execute(qry,[
             Usuario.usu_nombre,
             Usuario.usu_password
@@ -36,42 +52,6 @@ class Dao_Usuario {
             return null;
         }
     }
-/*
-    static async actualizarCarta(Carta){
-        const db = await Dao.getConeccion();
-        const qry = 'update cartasmagic.carta set cta_scryfall_id=?, cta_nombre=?, cta_uri_imagen=?, cta_cantidad=? where cta_id=?';
-        let resultado = await db.execute(qry,[
-            Carta.cta_scryfall_id, 
-            Carta.cta_nombre,
-            Carta.cta_uri_imagen,
-            Carta.cta_cantidad,
-            Carta.cta_id
-        ]);
-        await db.end();
-        if(resultado[0].affectedRows>0){
-            return Carta;
-        }else{
-            return null;
-        }
-    }
-    
-    static async eliminarCarta(Carta){
-        const db = await Dao.getConeccion();
-        const qry = 'delete from cartasmagic.carta where cta_id=?';
-        let resultado = await db.execute(qry,[
-            Carta.cta_id
-        ]);
-        await db.end();
-        console.log(resultado)
-        if(resultado[0].affectedRows>0){
-            return Carta;
-        }else{
-            return null;
-        }
-    }
-*/
 }
 
 module.exports = { Dao_Usuario };
-
-/*Api Finalizada*/
