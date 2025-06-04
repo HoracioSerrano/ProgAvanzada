@@ -7,7 +7,7 @@ const path = require('path');
 
 class ControladorVistaLogIn{
     static async getLogIn(req,res){
-        let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaLogin.ejs'),{mensaje:'hola'});
+        let html = await ejs.renderFile( path.join(__dirname, '../../', 'vista', 'vistaLogin.ejs'),{mensaje:''});
         res.status(200).send(html);
     }
 
