@@ -52,5 +52,12 @@ class Negocio_login {
         return true;
     }
 
+    static async authSession(req) {
+        if (req.session.user) {
+            return true; // tiene sesión, continúa
+        } else {
+            return false; // no tiene sesión, redirige
+        }
+    }
 }
 module.exports = {Negocio_login};
