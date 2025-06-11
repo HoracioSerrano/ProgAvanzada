@@ -40,7 +40,6 @@ class Dao_Carta {
     static async eliminarCarta(cartaData) {
         const carta = await Carta.findByPk(cartaData.cta_id);
         if (!carta) return null;
-
         await carta.destroy();
         return carta;
     }

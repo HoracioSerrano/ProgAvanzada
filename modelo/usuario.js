@@ -1,7 +1,18 @@
-class Usuario {
-    usu_id=null;
-    usu_nombre=null;
-    usu_password=null;
-}
+const mongoose = require('mongoose');
 
-module.exports = { Usuario };
+const UsuarioSchema = new mongoose.Schema({
+    usu_nombre: {
+        type: String,
+        required: true
+    },
+    usu_password: {
+        type: String,
+        required: true
+    }
+}, {
+    collection: 'usuarios' // nombre de la colección en MongoDB
+});
+
+const Usuario = mongoose.model('Usuario', UsuarioSchema);
+
+module.exports = Usuario;

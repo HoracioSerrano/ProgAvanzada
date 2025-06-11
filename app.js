@@ -28,6 +28,30 @@ app.use('/api', rutasApi);
 app.use(express.static('Estatico'));
 
 
+
+
+
+
+
+
+const mongoose = require('mongoose');
+
+mongoose.connect("mongodb+srv://serranohoraciohector:31843184@prueba.46gemxi.mongodb.net/?retryWrites=true&w=majority&appName=prueba", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+mongoose.connection.on('connected', () => {
+    console.log('✔ Conectado a MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('❌ Error de conexión a MongoDB:', err.message);
+});
+
+
+
+
 sequelize.sync({ alter: true }) // o { force: true } si querés recrearla desde cero
     .then(() => {
         console.log('✔ Base de datos sincronizada');
