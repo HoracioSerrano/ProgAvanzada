@@ -1,16 +1,32 @@
-class Carta {
-    cta_id = null;
-    cta_scryfall_id = null;
-    cta_nombre = null;
-    cta_uri_imagen = null;
-    cta_cantidad = null;
-    constructor(id, scryfall_id, nombre, uri_imagen, cantidad){
-        this.cta_id = id;
-        this.cta_scryfall_id = scryfall_id;
-        this.cta_nombre = nombre;
-        this.cta_uri_imagen = uri_imagen;
-        this.cta_cantidad = cantidad;
-    }
-}
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/sequelize'); // Asegurate de tener configurado Sequelize y exportado el `sequelize` instance
 
-module.exports = { Carta };
+const Carta = sequelize.define('Carta', {
+    cta_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    cta_scryfall_id: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    cta_nombre: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    cta_uri_imagen: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    cta_cantidad: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    }
+}, {
+    tableName: 'cartas',
+    timestamps: false // si tu tabla no tiene columnas createdAt / updatedAt
+});
+
+module.exports = Carta;
