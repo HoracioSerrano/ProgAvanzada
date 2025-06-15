@@ -13,8 +13,10 @@ app.use(cookieParser());
 
 //utiliza CORS
 var cors = require('cors');
-app.use(cors());
-
+app.use(cors({
+  origin: ['http://localhost:3001',  'http://localhost:5173'], // o tu dominio React
+  credentials: true
+}));
 
 
 const rutasVistas = require('./rutas/rutasVistas');
