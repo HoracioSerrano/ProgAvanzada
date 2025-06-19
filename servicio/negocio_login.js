@@ -44,6 +44,7 @@ class Negocio_login {
 
 
     static async registrarUsuario(usu,pass){
+        console.log('registrarUsuario')
         const hash = await bcrypt.hash(pass,10);
         const u = new Usuario();
         u.usu_nombre=usu; 

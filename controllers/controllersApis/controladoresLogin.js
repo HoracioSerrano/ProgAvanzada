@@ -19,9 +19,11 @@ class ControladorLogIn{
     }
 
     static async registrarUsuario(req,res){
+        console.log('registrarUsuario');
         const r = req.body;
         if(r.usu_password != r.usu_password2){
             res.status(400).send('Passwords no coinciden');
+            console.log('Passwords no coinciden')
         }else{
             await Negocio_login.registrarUsuario(r.usu_nombre, r.usu_password);
             res.status(200).send('Usuario Registrado');

@@ -23,7 +23,7 @@ class Dao_Usuario {
     }
 
     static async insertarUsuario(usuarioData) {
-        console.log("entre");
+        console.log("insertarUsuario");
         try {
             const nuevoUsuario = new Usuario({
                 usu_nombre: usuarioData.usu_nombre,
