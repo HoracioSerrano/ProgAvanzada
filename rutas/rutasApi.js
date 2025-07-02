@@ -18,6 +18,8 @@ rutasApi.get("/carta/:id", ControladorCarta.seleccionarPorId);
 rutasApi.post("/carta", ControladorCarta.insertarCarta);
 rutasApi.put("/carta", ControladorCarta.actualizarCarta);
 rutasApi.delete("/carta", ControladorCarta.eliminarCarta);
+rutasApi.get("/sesion", verificarJWT, ControladorLogIn.sesion);
+
 
 rutasApi.post("/login", ControladorLogIn.login);
 rutasApi.post("/registrarUsuario", ControladorLogIn.registrarUsuario);

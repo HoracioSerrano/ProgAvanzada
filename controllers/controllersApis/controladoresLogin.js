@@ -7,7 +7,7 @@ class ControladorLogIn{
         const token = await Negocio_login.login(u.usu_nombre, u.usu_password);
         if(token){
             res.cookie('jwt',token,{
-                httpOnly: true,
+                httpOnly: false,
                 secure: false,          // usar solo en HTTPS
                 sameSite: 'Lax',    // o 'Lax' según tu caso
                 maxAge: 2 * 60 * 60 * 1000 // 2 horas parte de milisegundos
@@ -31,19 +31,19 @@ class ControladorLogIn{
     }
 
     static async salir(req,res){
-        const u = req.body;
-        const token = await Negocio_login.login(u.usu_nombre, u.usu_password);
-        if(token){
-            res.cookie('jwt','',{
-                httpOnly: true,
+
+            res.cookie('jwt',"void",{
+                httpOnly: false,
                 secure: false,          // usar solo en HTTPS
                 sameSite: 'Lax',    // o 'Lax' según tu caso
                 maxAge: 2 * 60 * 60 * 1000 // 2 horas parte de milisegundos
             });
-            res.status(200).send('Sesion Iniciada');
-        }else{
-            res.status(400).send('Error Autenticacion');
-        }
+            res.status(200).send('token anulada');
+
+    }
+
+    static async sesion(req,res){
+        res.status(200).send('ok');
     }
 
 }
