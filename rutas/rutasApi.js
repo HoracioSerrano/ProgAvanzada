@@ -21,7 +21,7 @@ rutasApi.delete("/carta", ControladorCarta.eliminarCarta);
 
 rutasApi.post("/login", ControladorLogIn.login);
 rutasApi.post("/registrarUsuario", ControladorLogIn.registrarUsuario);
-
+rutasApi.get("/salir", ControladorLogIn.salir);
 
 
 module.exports = rutasApi;

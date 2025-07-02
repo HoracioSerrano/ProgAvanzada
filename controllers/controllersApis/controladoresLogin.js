@@ -30,6 +30,22 @@ class ControladorLogIn{
         }
     }
 
+    static async salir(req,res){
+        const u = req.body;
+        const token = await Negocio_login.login(u.usu_nombre, u.usu_password);
+        if(token){
+            res.cookie('jwt','',{
+                httpOnly: true,
+                secure: false,          // usar solo en HTTPS
+                sameSite: 'Lax',    // o 'Lax' según tu caso
+                maxAge: 2 * 60 * 60 * 1000 // 2 horas parte de milisegundos
+            });
+            res.status(200).send('Sesion Iniciada');
+        }else{
+            res.status(400).send('Error Autenticacion');
+        }
+    }
+
 }
 
 
